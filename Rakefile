@@ -4,14 +4,18 @@ require 'rspec/core/rake_task'
 
 GEM_NAME = 'signet'
 GEMSERVER = 'https://private-gems.liveramp.net'
-GEM_CREDENTIALS = ENV['HOME'] + '/.gem/credentials'
+GEM_CREDENTIALS = File.join(ENV['HOME'], '/.gem/credentials')
 
-task :push => [:check_gem_version_exists]
+task :ci do
+  header "Using Ruby - #{RUBY_VERSION}"
+  sh "bundle exec rubocop"
+  sh "bundle exec rspec"
+end
+
+task :ci_release => [:create_artifactory_credentials, :release]
 
 # Push gem to our gem server
-Gem::Tasks.new do |tasks|
-  tasks.push.host = GEMSERVER
-end
+Gem::Tasks.new { |tasks| tasks.push.host = GEMSERVER }
 
 # Create credentials file for pushing gems to artifactory/library
 task :create_artifactory_credentials do
@@ -22,4 +26,3 @@ task :create_artifactory_credentials do
   end
   File.chmod 0600, GEM_CREDENTIALS
 end
-

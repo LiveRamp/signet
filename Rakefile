@@ -7,7 +7,6 @@ GEMSERVER = 'https://private-gems.liveramp.net'
 GEM_CREDENTIALS = File.join(ENV['HOME'], '/.gem/credentials')
 
 task :ci do
-  sh "bundle exec rubocop"
   sh "bundle exec rspec"
 end
 

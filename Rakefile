@@ -1,3 +1,4 @@
+require 'base64'
 require 'rubygems'
 require 'rubygems/tasks'
 require 'rspec/core/rake_task'

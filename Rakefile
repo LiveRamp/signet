@@ -5,8 +5,7 @@ task :ci do
   sh "bundle exec rspec"
 end
 
-# begin LiveRamp Jenkins CI changes
-task :ci_release => [:generate_rubygems_credentials, :release]
+task :ci_release => ['generate_rubygems_credentials', 'release:rubygem_push']
 
 task :generate_rubygems_credentials do
   require 'base64'

@@ -5,7 +5,9 @@ task :ci do
   sh "bundle exec rspec"
 end
 
-task :ci_release => ['generate_rubygems_credentials', 'release:rubygem_push']
+# build, release:guard_clean and release:rubygem_push are the upstream
+# release task minus the git push.
+task :ci_release => ['generate_rubygems_credentials', 'build', 'release:guard_clean', 'release:rubygem_push']
 
 task :generate_rubygems_credentials do
   require 'base64'

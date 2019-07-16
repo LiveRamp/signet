@@ -45,7 +45,7 @@ namespace :kokoro do
     version = "0.1.0"
     Bundler.with_clean_env do
       version = `bundle exec gem list`
-                .split("\n").select { |line| line.include? "googleauth" }
+                .split("\n").select { |line| line.include? "signet" }
                 .first.split("(").last.split(")").first || "0.1.0"
     end
     Rake::Task["kokoro:load_env_vars"].invoke

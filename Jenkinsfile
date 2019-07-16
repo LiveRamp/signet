@@ -28,7 +28,7 @@ pipeline {
     }
 
      stage('gem:release') {
-      // when { branch 'master' } # TODO: comment this back in when we know it works
+      when { branch 'master' }
       steps {
         withCredentials( bindings:
           // CredentialsId was found through the credentials page for

@@ -25,6 +25,7 @@ module Signet
   module OAuth2
     class Client
       OOB_MODES = ["urn:ietf:wg:oauth:2.0:oob:auto", "urn:ietf:wg:oauth:2.0:oob", "oob"].freeze
+      ID_TOKEN_TYPE = 'JWT'.freeze
 
       ##
       # Creates an OAuth 2.0 client.
@@ -602,7 +603,7 @@ module Signet
       # @param [Hash] new_additional_claims
       #   Additional claims
       def additional_claims= new_additional_claims
-        @additional_claims = new_additional_claims
+        @additional_claims = deep_hash_normalize(new_additional_claims)
       end
 
       ##
@@ -921,7 +922,7 @@ module Signet
         assertion["prn"] = person unless person.nil?
         assertion["sub"] = sub unless sub.nil?
         assertion.merge! additional_claims
-        JWT.encode assertion, signing_key, signing_algorithm
+        JWT.encode assertion, signing_key, signing_algorithm, header_fields=options.fetch(:header_fields, {})
       end
       # rubocop:disable Style/MethodDefParentheses
 
